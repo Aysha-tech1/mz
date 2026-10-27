@@ -1,0 +1,150 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+
+class DigitalProduct extends Model
+{
+    protected $fillable = [
+        'title',
+        'slug',
+        'description',
+        'full_description',
+        'label',
+        'step_number',
+        'price',
+        'is_free',
+        'file_path',
+        'is_active',
+        'old_price',
+        'is_coming_soon',
+        'is_featured',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'price' => 'decimal:3',
+            'is_free' => 'boolean',
+            'is_active' => 'boolean',
+            'is_coming_soon' => 'boolean',
+            'is_featured' => 'boolean',
+            'step_number' => 'integer',
+        ];
+    }
+
+    protected static function booted(): void
+    {
+        static::saving(function (DigitalProduct $product): void {
+            if (blank($product->slug) || ($product->isDirty('title') && ! $product->isDirty('slug'))) {
+                $product->slug = static::uniqueSlugFromTitle((string) $product->title, $product->id);
+            }
+        });
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        $field ??= $this->getRouteKeyName();
+
+        return $this->where($field, $value)
+            ->when(ctype_digit((string) $value), fn (Builder $query) => $query->orWhere($this->getKeyName(), $value))
+            ->first();
+    }
+
+    public static function slugFromTitle(string $title): string
+    {
+        $slug = preg_replace('/[^\p{L}\p{N}\s-]+/u', '', $title) ?? '';
+        $slug = preg_replace('/[\s-]+/u', '-', trim($slug)) ?? '';
+        $slug = trim($slug, '-');
+
+        return $slug !== '' ? $slug : 'ملف';
+    }
+
+    public static function uniqueSlugFromTitle(string $title, int|string|null $ignoreId = null): string
+    {
+        $base = static::slugFromTitle($title);
+        $slug = $base;
+        $i = 2;
+
+        while (
+            static::query()
+                ->where('slug', $slug)
+                ->when($ignoreId, fn (Builder $query) => $query->whereKeyNot($ignoreId))
+                ->exists()
+        ) {
+            $slug = $base.'-'.$i;
+            $i++;
+        }
+
+        return $slug;
+    }
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('is_active', true)->orderBy('step_number');
+    }
+
+    public function displayPrice(): string
+    {
+        if ($this->is_free) {
+            return 'مجاني';
+        }
+
+        return $this->formatOmr($this->price);
+    }
+
+    public function displayOldPrice(): ?string
+    {
+        if (blank($this->old_price) || $this->is_free) {
+            return null;
+        }
+
+        return $this->formatOmr($this->old_price);
+    }
+
+    public function savingsAmount(): ?string
+    {
+        if ($this->is_free || blank($this->old_price) || ! is_numeric($this->old_price)) {
+            return null;
+        }
+
+        $saved = (float) $this->old_price - (float) $this->price;
+
+        if ($saved <= 0) {
+            return null;
+        }
+
+        return $this->formatOmr($saved);
+    }
+
+    public function ctaLabel(): string
+    {
+        if ($this->is_coming_soon) {
+            return 'قريبًا';
+        }
+
+        return $this->is_free ? 'تحميل مجاني' : 'احصل عليه';
+    }
+
+    public function fileUrl(): ?string
+    {
+        if (blank($this->file_path)) {
+            return null;
+        }
+
+        return Storage::disk('public')->url($this->file_path);
+    }
+
+    private function formatOmr(mixed $amount): string
+    {
+        return number_format((float) $amount, 3).' ر.ع.';
+    }
+}
