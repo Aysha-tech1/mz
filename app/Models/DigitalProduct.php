@@ -143,6 +143,54 @@ class DigitalProduct extends Model
         return Storage::disk('public')->url($this->file_path);
     }
 
+    public function downloadFilename(): string
+    {
+        $extension = strtolower((string) pathinfo((string) $this->file_path, PATHINFO_EXTENSION));
+
+        if ($extension === '') {
+            $extension = $this->extensionFromMime();
+        }
+
+        $base = preg_replace('/[\\\\\/:*?"<>|]+/u', '', (string) $this->title) ?? '';
+        $base = trim($base, " \t\n\r\0\x0B.");
+        $base = $base !== '' ? $base : 'file';
+
+        return $extension !== '' ? $base.'.'.$extension : $base;
+    }
+
+    public function downloadHeaders(): array
+    {
+        $mime = $this->fileMimeType() ?? 'application/octet-stream';
+
+        return [
+            'Content-Type' => $mime,
+        ];
+    }
+
+    public function fileMimeType(): ?string
+    {
+        if (blank($this->file_path) || ! Storage::disk('public')->exists($this->file_path)) {
+            return null;
+        }
+
+        return Storage::disk('public')->mimeType($this->file_path) ?: null;
+    }
+
+    private function extensionFromMime(): string
+    {
+        return match ($this->fileMimeType()) {
+            'application/pdf' => 'pdf',
+            'application/msword' => 'doc',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx',
+            'application/vnd.ms-excel' => 'xls',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
+            'application/vnd.ms-powerpoint' => 'ppt',
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'pptx',
+            'application/zip', 'application/x-zip-compressed' => 'zip',
+            default => '',
+        };
+    }
+
     private function formatOmr(mixed $amount): string
     {
         return number_format((float) $amount, 3).' ر.ع.';

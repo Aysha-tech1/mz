@@ -5,6 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\DigitalProductResource\Pages;
 use App\Models\DigitalProduct;
 use Filament\Actions\BulkActionGroup;
+use Illuminate\Support\Str;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components as Components;
@@ -110,10 +112,18 @@ class DigitalProductResource extends Resource
                     ->directory('digital-products')
                     ->acceptedFileTypes([
                         'application/pdf',
+                        'application/msword',
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                        'application/vnd.ms-excel',
+                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                        'application/vnd.ms-powerpoint',
+                        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
                         'application/zip',
                         'application/x-zip-compressed',
-                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                     ])
+                    ->getUploadedFileNameForStorageUsing(
+                        fn (TemporaryUploadedFile $file): string => Str::uuid().'.'.strtolower($file->getClientOriginalExtension() ?: ($file->guessExtension() ?: 'bin'))
+                    )
                     ->downloadable()
                     ->openable()
                     ->columnSpanFull(),
