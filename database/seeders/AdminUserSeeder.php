@@ -21,17 +21,15 @@ class AdminUserSeeder extends Seeder
 
         User::query()->where('email', 'admin@example.com')->delete();
 
-        if (User::query()->where('email', $email)->exists()) {
-            $this->command?->info("حساب الأدمن موجود مسبقاً ({$email}) ولم تُغيَّر كلمة المرور.");
+        User::query()->updateOrCreate(
+            ['email' => $email],
+            [
+                'name' => 'محمود الدرعي',
+                'password' => Hash::make($password),
+                'email_verified_at' => now(),
+            ]
+        );
 
-            return;
-        }
-
-        User::query()->create([
-            'name' => 'محمود الدرعي',
-            'email' => $email,
-            'password' => Hash::make($password),
-            'email_verified_at' => now(),
-        ]);
+        $this->command?->info("تم ضبط حساب الأدمن: {$email}");
     }
 }
