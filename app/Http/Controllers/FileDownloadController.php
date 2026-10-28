@@ -70,15 +70,6 @@ class FileDownloadController extends Controller
             return redirect('/#start');
         }
 
-        $email = $request->query('email') ?: $request->session()->get('file_email.'.$product->id);
-
-        $product->recordDownload(
-            $request->ip(),
-            $request->userAgent(),
-            is_string($email) ? $email : null,
-            'download',
-        );
-
         return $product->downloadResponse();
     }
 }
