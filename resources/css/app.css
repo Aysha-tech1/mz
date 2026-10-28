@@ -52,54 +52,6 @@
 }
 
 @layer components {
-    .site-motif {
-        position: fixed;
-        inset: 0;
-        z-index: 20;
-        pointer-events: none;
-        overflow: hidden;
-    }
-
-    .site-motif-col {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 5.5rem;
-        background-repeat: repeat-y;
-        background-position: top center;
-        background-size: 5.25rem auto;
-        opacity: 0.8;
-    }
-
-    .site-motif-left {
-        left: 0;
-        -webkit-mask-image: linear-gradient(to right, #000 68%, transparent);
-        mask-image: linear-gradient(to right, #000 68%, transparent);
-    }
-
-    .site-motif-right {
-        right: 0;
-        transform: scaleX(-1);
-        -webkit-mask-image: linear-gradient(to right, #000 68%, transparent);
-        mask-image: linear-gradient(to right, #000 68%, transparent);
-    }
-
-    @media (min-width: 768px) {
-        .site-motif-col {
-            width: 7.5rem;
-            background-size: 6.75rem auto;
-            opacity: 0.9;
-        }
-    }
-
-    @media (min-width: 1280px) {
-        .site-motif-col {
-            width: 10rem;
-            background-size: 8.5rem auto;
-            opacity: 1;
-        }
-    }
-
     .wrap {
         @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-12;
     }
