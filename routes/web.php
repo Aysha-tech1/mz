@@ -29,22 +29,26 @@ Route::get('/files/{digitalProduct}', function (DigitalProduct $digitalProduct) 
     return view('pages.digital-product', compact('digitalProduct'));
 })->name('digital-products.show');
 
-Route::get('/files/{digitalProduct}/download', function (DigitalProduct $digitalProduct) {
+Route::get('/files/{digitalProduct}/download.{extension}', function (DigitalProduct $digitalProduct, string $extension) {
     abort_unless($digitalProduct->is_active && $digitalProduct->is_free && ! $digitalProduct->is_coming_soon, 404);
     abort_unless(filled($digitalProduct->file_path) && Storage::disk('public')->exists($digitalProduct->file_path), 404);
+    abort_unless(strtolower($extension) === $digitalProduct->downloadExtension(), 404);
 
     if (filled($digitalProduct->slug) && request()->segment(2) !== $digitalProduct->slug) {
-        return redirect()->route('digital-products.download', $digitalProduct, 301);
+        return redirect()->to($digitalProduct->downloadUrl(), 301);
     }
 
     $digitalProduct->recordDownload();
 
-    return Storage::disk('public')->download(
-        $digitalProduct->file_path,
-        $digitalProduct->downloadFilename(),
-        $digitalProduct->downloadHeaders(),
-    );
-})->name('digital-products.download');
+    return $digitalProduct->downloadResponse();
+})->where('extension', '[A-Za-z0-9]+')->name('digital-products.download');
+
+Route::get('/files/{digitalProduct}/download', function (DigitalProduct $digitalProduct) {
+    abort_unless($digitalProduct->is_active && $digitalProduct->is_free && ! $digitalProduct->is_coming_soon, 404);
+    abort_unless(filled($digitalProduct->file_path) && Storage::disk('public')->exists($digitalProduct->file_path), 404);
+
+    return redirect()->to($digitalProduct->downloadUrl());
+});
 
 Route::post('/bookings', function (Request $request) {
     $validated = $request->validate([

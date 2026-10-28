@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 
 class DigitalProduct extends Model
 {
@@ -179,28 +181,88 @@ class DigitalProduct extends Model
         return Storage::disk('public')->url($this->file_path);
     }
 
-    public function downloadFilename(): string
+    public function downloadExtension(): string
     {
         $extension = strtolower((string) pathinfo((string) $this->file_path, PATHINFO_EXTENSION));
 
-        if ($extension === '') {
+        if ($extension === '' || ! in_array($extension, self::UPLOAD_EXTENSIONS, true)) {
             $extension = $this->extensionFromMime();
         }
 
+        return $extension;
+    }
+
+    public function downloadFilename(): string
+    {
+        $extension = $this->downloadExtension();
         $base = preg_replace('/[\\\\\/:*?"<>|]+/u', '', (string) $this->title) ?? '';
         $base = trim($base, " \t\n\r\0\x0B.");
         $base = $base !== '' ? $base : 'file';
 
+        if (mb_strlen($base) > 60) {
+            $base = mb_substr($base, 0, 60);
+        }
+
         return $extension !== '' ? $base.'.'.$extension : $base;
+    }
+
+    public function asciiDownloadFilename(): string
+    {
+        $extension = $this->downloadExtension();
+        $base = 'm7zz-'.$this->getKey();
+
+        return $extension !== '' ? $base.'.'.$extension : $base;
+    }
+
+    public function downloadMimeType(): string
+    {
+        return match ($this->downloadExtension()) {
+            'pdf' => 'application/pdf',
+            'doc' => 'application/msword',
+            'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'xls' => 'application/vnd.ms-excel',
+            'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'ppt' => 'application/vnd.ms-powerpoint',
+            'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            'odt' => 'application/vnd.oasis.opendocument.text',
+            'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
+            'odp' => 'application/vnd.oasis.opendocument.presentation',
+            'csv' => 'text/csv',
+            'txt' => 'text/plain',
+            'zip' => 'application/zip',
+            default => $this->fileMimeType() ?? 'application/octet-stream',
+        };
     }
 
     public function downloadHeaders(): array
     {
-        $mime = $this->fileMimeType() ?? 'application/octet-stream';
-
         return [
-            'Content-Type' => $mime,
+            'Content-Type' => $this->downloadMimeType(),
+            'X-Content-Type-Options' => 'nosniff',
         ];
+    }
+
+    public function downloadUrl(): string
+    {
+        return route('digital-products.download', [
+            'digitalProduct' => $this,
+            'extension' => $this->downloadExtension() ?: 'bin',
+        ]);
+    }
+
+    public function downloadResponse(): BinaryFileResponse
+    {
+        $path = Storage::disk('public')->path((string) $this->file_path);
+        $ascii = $this->asciiDownloadFilename();
+        $utf8 = $this->downloadFilename();
+
+        $response = response()->download($path, $ascii, $this->downloadHeaders());
+        $response->headers->set(
+            'Content-Disposition',
+            HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_ATTACHMENT, $utf8, $ascii)
+        );
+
+        return $response;
     }
 
     public function fileMimeType(): ?string
