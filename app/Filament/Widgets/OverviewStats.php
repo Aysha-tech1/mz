@@ -4,7 +4,6 @@ namespace App\Filament\Widgets;
 
 use App\Filament\Resources\AvailabilityResource;
 use App\Filament\Resources\BookingResource;
-use App\Filament\Resources\FileSaleResource;
 use App\Models\Availability;
 use App\Models\Booking;
 use App\Models\DigitalProduct;
@@ -69,7 +68,7 @@ class OverviewStats extends StatsOverviewWidget
                 ->description($comingSoon.' قريبًا · '.$activeFiles.' ملف ظاهر')
                 ->descriptionIcon('heroicon-m-chart-bar')
                 ->color('warning')
-                ->url(FileSaleResource::getUrl('index')),
+                ->url(url('/admin/file-sales')),
         ];
     }
 }

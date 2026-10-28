@@ -15,6 +15,8 @@ class FileSaleResource extends Resource
 {
     protected static ?string $model = FileSale::class;
 
+    protected static ?string $slug = 'file-sales';
+
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-chart-bar';
 
     protected static ?string $navigationLabel = 'مبيعات الملفات';
