@@ -108,22 +108,21 @@ class DigitalProductResource extends Resource
                     ->visible(fn (Get $get): bool => ! $get('is_free')),
                 Components\FileUpload::make('file_path')
                     ->label('ملف التحميل')
+                    ->helperText('PDF، Word، Excel، PowerPoint، CSV، TXT، ZIP')
                     ->disk('public')
                     ->directory('digital-products')
-                    ->acceptedFileTypes([
-                        'application/pdf',
-                        'application/msword',
-                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                        'application/vnd.ms-excel',
-                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                        'application/vnd.ms-powerpoint',
-                        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-                        'application/zip',
-                        'application/x-zip-compressed',
-                    ])
-                    ->getUploadedFileNameForStorageUsing(
-                        fn (TemporaryUploadedFile $file): string => Str::uuid().'.'.strtolower($file->getClientOriginalExtension() ?: ($file->guessExtension() ?: 'bin'))
-                    )
+                    ->acceptedFileTypes(DigitalProduct::UPLOAD_MIME_TYPES)
+                    ->rule('mimes:'.implode(',', DigitalProduct::UPLOAD_EXTENSIONS))
+                    ->maxSize(51200)
+                    ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
+                        $extension = strtolower($file->getClientOriginalExtension() ?: ($file->guessExtension() ?: ''));
+
+                        if (! in_array($extension, DigitalProduct::UPLOAD_EXTENSIONS, true)) {
+                            $extension = 'bin';
+                        }
+
+                        return Str::uuid().'.'.$extension;
+                    })
                     ->downloadable()
                     ->openable()
                     ->columnSpanFull(),

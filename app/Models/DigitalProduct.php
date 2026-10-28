@@ -8,6 +8,31 @@ use Illuminate\Support\Facades\Storage;
 
 class DigitalProduct extends Model
 {
+    public const UPLOAD_EXTENSIONS = [
+        'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx',
+        'odt', 'ods', 'odp', 'csv', 'txt', 'zip',
+    ];
+
+    public const UPLOAD_MIME_TYPES = [
+        'application/pdf',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/vnd.ms-excel',
+        'application/vnd.ms-office',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'application/vnd.ms-powerpoint',
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        'application/vnd.oasis.opendocument.text',
+        'application/vnd.oasis.opendocument.spreadsheet',
+        'application/vnd.oasis.opendocument.presentation',
+        'text/csv',
+        'application/csv',
+        'text/plain',
+        'application/zip',
+        'application/x-zip-compressed',
+        'application/x-cfb',
+    ];
+
     protected $fillable = [
         'title',
         'slug',
@@ -182,10 +207,15 @@ class DigitalProduct extends Model
             'application/pdf' => 'pdf',
             'application/msword' => 'doc',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx',
-            'application/vnd.ms-excel' => 'xls',
+            'application/vnd.ms-excel', 'application/vnd.ms-office' => 'xls',
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
             'application/vnd.ms-powerpoint' => 'ppt',
             'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'pptx',
+            'application/vnd.oasis.opendocument.text' => 'odt',
+            'application/vnd.oasis.opendocument.spreadsheet' => 'ods',
+            'application/vnd.oasis.opendocument.presentation' => 'odp',
+            'text/csv', 'application/csv' => 'csv',
+            'text/plain' => 'txt',
             'application/zip', 'application/x-zip-compressed' => 'zip',
             default => '',
         };
