@@ -145,7 +145,12 @@
     }
 
     .file-email-overlay {
-        @apply fixed inset-0 z-[80] flex items-center justify-center p-4;
+        @apply fixed inset-0 z-[80] items-center justify-center p-4;
+        display: none;
+    }
+
+    .file-email-overlay.is-open {
+        display: flex !important;
     }
 
     .file-email-backdrop {

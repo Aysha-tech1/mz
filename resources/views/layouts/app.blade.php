@@ -14,9 +14,23 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <style>[x-cloak]{display:none !important}</style>
+    <style>
+        [x-cloak]{display:none !important}
+        button.file-cta, .btn { -webkit-tap-highlight-color: transparent; touch-action: manipulation; cursor: pointer; }
+        .file-email-overlay {
+            display: none !important;
+            position: fixed !important;
+            inset: 0 !important;
+            z-index: 9999 !important;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            padding-top: max(1rem, env(safe-area-inset-top));
+        }
+        .file-email-overlay.is-open { display: flex !important; }
+    </style>
 </head>
-<body class="antialiased bg-canvas text-primary selection:bg-accent selection:text-primary">
+<body class="antialiased bg-canvas text-primary selection:bg-accent selection:text-primary" x-data>
     <div id="app" class="min-h-screen flex flex-col">
         @include('partials.header')
 

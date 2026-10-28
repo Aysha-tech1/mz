@@ -45,11 +45,11 @@
                     @if($digitalProduct->is_coming_soon)
                         <span class="file-cta file-cta-soon">قريبًا</span>
                     @elseif($digitalProduct->is_free && $digitalProduct->fileUrl())
-                        <button type="button" class="btn btn-acc" @click="$dispatch('open-file-email', { title: @js($digitalProduct->title), url: @js($digitalProduct->claimUrl()) })">تحميل مجاني</button>
+                        <button type="button" class="btn btn-acc" data-file-claim="{{ $digitalProduct->claimUrl() }}" onclick="return window.openFileEmailModal(this)">تحميل مجاني</button>
                     @elseif($digitalProduct->is_free)
                         <span class="file-cta file-cta-soon">سيتوفر التحميل قريبًا</span>
                     @else
-                        <button type="button" class="btn btn-acc" @click="$dispatch('open-file-email', { title: @js($digitalProduct->title), url: @js($digitalProduct->claimUrl()) })">احصل عليه</button>
+                        <button type="button" class="btn btn-acc" data-file-claim="{{ $digitalProduct->claimUrl() }}" onclick="return window.openFileEmailModal(this)">احصل عليه</button>
                     @endif
                 </div>
             </article>

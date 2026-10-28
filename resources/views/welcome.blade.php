@@ -110,9 +110,9 @@
                             @if($product->is_coming_soon)
                                 <span class="file-cta file-cta-soon">قريبًا</span>
                             @elseif($product->is_free && $product->fileUrl())
-                                <button type="button" class="file-cta" @click="$dispatch('open-file-email', { title: @js($product->title), url: @js($product->claimUrl()) })">تحميل مجاني</button>
+                                <button type="button" class="file-cta" data-file-claim="{{ $product->claimUrl() }}" onclick="return window.openFileEmailModal(this)">تحميل مجاني</button>
                             @else
-                                <button type="button" class="file-cta" @click="$dispatch('open-file-email', { title: @js($product->title), url: @js($product->claimUrl()) })">{{ $product->ctaLabel() }}</button>
+                                <button type="button" class="file-cta" data-file-claim="{{ $product->claimUrl() }}" onclick="return window.openFileEmailModal(this)">{{ $product->ctaLabel() }}</button>
                             @endif
                         </div>
                     </article>
