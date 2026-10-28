@@ -85,9 +85,6 @@
                                 <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
                                 التفاصيل
                             </a>
-                            <span @class(['text-sm font-bold', 'text-primary/70' => $product->is_featured, 'text-muted' => ! $product->is_featured])>
-                                {{ $product->displaySales() }}
-                            </span>
                             @if($product->savingsAmount())
                                 <span class="text-xs font-bold {{ $product->is_featured ? 'text-primary' : 'text-accent' }}">
                                     عرض خاص · وفر {{ $product->savingsAmount() }}
@@ -110,6 +107,14 @@
                             @else
                                 <a href="{{ route('digital-products.show', $product) }}" class="file-cta">{{ $product->ctaLabel() }}</a>
                             @endif
+                        </div>
+
+                        <div class="file-card-sales">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 16l4-5 3 3 6-8"/>
+                            </svg>
+                            <b>{{ (int) $product->downloads_count }}</b>
+                            <span>مبيعة</span>
                         </div>
                     </article>
                 @empty

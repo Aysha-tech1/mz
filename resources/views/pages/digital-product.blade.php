@@ -10,13 +10,12 @@
                 العودة للملفات
             </a>
 
-            <article @class(['rounded-3xl sm:rounded-[2.5rem] border p-5 sm:p-8 lg:p-12 shadow-soft', 'bg-accent text-primary border-accent' => $digitalProduct->is_featured, 'bg-white border-line' => ! $digitalProduct->is_featured])>
+            <article @class(['rounded-3xl sm:rounded-[2.5rem] border p-5 sm:p-8 lg:p-12 shadow-soft overflow-hidden', 'bg-accent text-primary border-accent' => $digitalProduct->is_featured, 'bg-white border-line' => ! $digitalProduct->is_featured])>
                 <div class="flex items-start justify-between gap-4 mb-6">
                     <span class="file-number shrink-0">{{ $digitalProduct->step_number }}</span>
                     <div class="min-w-0 flex-1 text-right">
                         <p class="text-sm font-bold mb-3 {{ $digitalProduct->is_featured ? 'text-primary/70' : 'text-accent' }}">{{ $digitalProduct->label }}</p>
-                        <h1 class="text-2xl sm:text-3xl lg:text-5xl font-bold leading-tight mb-2">{{ $digitalProduct->title }}</h1>
-                        <p class="text-sm mb-4 {{ $digitalProduct->is_featured ? 'text-primary/60' : 'text-muted' }}">{{ $digitalProduct->displaySales() }}</p>
+                        <h1 class="text-2xl sm:text-3xl lg:text-5xl font-bold leading-tight mb-4">{{ $digitalProduct->title }}</h1>
                         <p class="text-lg {{ $digitalProduct->is_featured ? 'text-primary/80' : 'text-muted' }}">{{ $digitalProduct->description }}</p>
                     </div>
                 </div>
@@ -35,7 +34,7 @@
                     {!! nl2br(e($digitalProduct->full_description ?: $digitalProduct->description)) !!}
                 </div>
 
-                <div class="mt-12">
+                <div class="mt-12 flex flex-wrap items-center justify-between gap-4">
                     @if($digitalProduct->is_coming_soon)
                         <span class="file-cta file-cta-soon">قريبًا</span>
                     @elseif($digitalProduct->is_free && $digitalProduct->fileUrl())
@@ -45,6 +44,14 @@
                     @else
                         <a href="{{ url('/#consult') }}" class="btn btn-acc">احصل عليه</a>
                     @endif
+                </div>
+
+                <div class="file-card-sales mt-8 -mx-5 -mb-5 sm:-mx-8 sm:-mb-8 lg:-mx-12 lg:-mb-12">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 16l4-5 3 3 6-8"/>
+                    </svg>
+                    <b>{{ (int) $digitalProduct->downloads_count }}</b>
+                    <span>مبيعة</span>
                 </div>
             </article>
         </div>
