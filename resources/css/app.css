@@ -124,28 +124,20 @@
         @apply bg-primary text-white hover:bg-primary/90;
     }
 
-    .file-card-sales {
-        @apply mt-5 -mx-5 -mb-5 sm:-mx-7 sm:-mb-7 px-5 sm:px-7 py-3 flex items-center justify-center gap-2 border-t border-line bg-surface text-sm rounded-b-3xl sm:rounded-b-[1.75rem];
+    .file-sales-chip {
+        @apply inline-flex items-center gap-1 rounded-full bg-accent/15 text-accent border border-accent/25 px-2.5 py-1 text-[11px] font-bold leading-none;
     }
 
-    .file-card-sales b {
-        @apply text-base font-bold text-primary tabular-nums;
+    .file-sales-chip b {
+        @apply tabular-nums text-xs;
     }
 
-    .file-card-sales span {
-        @apply text-muted font-medium;
+    .file-sales-chip svg {
+        @apply w-3.5 h-3.5;
     }
 
-    .file-card-sales svg {
-        @apply w-4 h-4 text-accent;
-    }
-
-    .file-card-featured .file-card-sales {
-        @apply bg-primary/10 border-primary/15;
-    }
-
-    .file-card-featured .file-card-sales span {
-        @apply text-primary/70;
+    .file-card-featured .file-sales-chip {
+        @apply bg-primary text-accent border-primary;
     }
 
     .file-cta-soon {

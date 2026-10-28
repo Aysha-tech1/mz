@@ -25,6 +25,13 @@
                         <span class="text-lg line-through opacity-60">{{ $digitalProduct->displayOldPrice() }}</span>
                     @endif
                     <span class="text-2xl font-bold">{{ $digitalProduct->displayPrice() }}</span>
+                    <span class="file-sales-chip">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 16l4-5 3 3 6-8"/>
+                        </svg>
+                        <b>{{ (int) $digitalProduct->downloads_count }}</b>
+                        مبيعة
+                    </span>
                     @if($digitalProduct->savingsAmount())
                         <span class="pill">وفر {{ $digitalProduct->savingsAmount() }}</span>
                     @endif
@@ -44,14 +51,6 @@
                     @else
                         <a href="{{ url('/#consult') }}" class="btn btn-acc">احصل عليه</a>
                     @endif
-                </div>
-
-                <div class="file-card-sales mt-8 -mx-5 -mb-5 sm:-mx-8 sm:-mb-8 lg:-mx-12 lg:-mb-12">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 16l4-5 3 3 6-8"/>
-                    </svg>
-                    <b>{{ (int) $digitalProduct->downloads_count }}</b>
-                    <span>مبيعة</span>
                 </div>
             </article>
         </div>

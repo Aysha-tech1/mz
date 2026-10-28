@@ -93,11 +93,18 @@
                         </div>
 
                         <div class="flex flex-wrap items-center justify-between gap-3 mt-auto pt-2">
-                            <div class="flex items-baseline gap-2">
+                            <div class="flex flex-wrap items-center gap-2">
                                 @if($product->displayOldPrice())
                                     <span class="text-sm line-through opacity-50">{{ $product->displayOldPrice() }}</span>
                                 @endif
                                 <span class="font-bold text-lg">{{ $product->displayPrice() }}</span>
+                                <span class="file-sales-chip">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 16l4-5 3 3 6-8"/>
+                                    </svg>
+                                    <b>{{ (int) $product->downloads_count }}</b>
+                                    مبيعة
+                                </span>
                             </div>
 
                             @if($product->is_coming_soon)
@@ -107,14 +114,6 @@
                             @else
                                 <a href="{{ route('digital-products.show', $product) }}" class="file-cta">{{ $product->ctaLabel() }}</a>
                             @endif
-                        </div>
-
-                        <div class="file-card-sales">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 16l4-5 3 3 6-8"/>
-                            </svg>
-                            <b>{{ (int) $product->downloads_count }}</b>
-                            <span>مبيعة</span>
                         </div>
                     </article>
                 @empty
