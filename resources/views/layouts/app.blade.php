@@ -14,6 +14,10 @@
     <style>[x-cloak]{display:none !important}</style>
 </head>
 <body class="antialiased bg-canvas text-primary selection:bg-accent selection:text-primary">
+    <div class="site-motif" aria-hidden="true">
+        <div class="site-motif-col site-motif-left" style="background-image: url('{{ asset('images/motif.svg') }}')"></div>
+        <div class="site-motif-col site-motif-right" style="background-image: url('{{ asset('images/motif.svg') }}')"></div>
+    </div>
     <div id="app" class="min-h-screen flex flex-col">
         @include('partials.header')
 
