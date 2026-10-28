@@ -59,7 +59,7 @@ class DigitalProductResource extends Resource
                     ->columnSpanFull(),
                 Components\TextInput::make('slug')
                     ->label('رابط الصفحة')
-                    ->helperText('يظهر في الرابط باسم الملف، مثل: /files/كيف-أبدأ')
+                    ->helperText('يظهر في الرابط، ويُستخدم كاسم ملف التحميل بالإنجليزي، مثل: select فيصير select.docx')
                     ->prefix('/files/')
                     ->required()
                     ->unique(ignoreRecord: true)

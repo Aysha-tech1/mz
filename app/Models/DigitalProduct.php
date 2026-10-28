@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class DigitalProduct extends Model
@@ -199,8 +200,14 @@ class DigitalProduct extends Model
     public function asciiDownloadFilename(): string
     {
         $extension = $this->downloadExtension() ?: 'bin';
+        $base = strtolower((string) preg_replace('/[^A-Za-z0-9._-]+/', '-', Str::ascii((string) $this->slug)));
+        $base = trim($base, '.-_');
 
-        return 'm7zz-'.$this->getKey().'.'.$extension;
+        if ($base === '') {
+            $base = 'm7zz-'.$this->getKey();
+        }
+
+        return $base.'.'.$extension;
     }
 
     public function downloadMimeType(): string
