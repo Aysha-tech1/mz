@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="hero relative overflow-hidden bg-primary text-white">
+    <section class="hero relative overflow-hidden bg-surface text-primary">
         <div class="hero-orb hero-orb-a" aria-hidden="true"></div>
         <div class="hero-orb hero-orb-b" aria-hidden="true"></div>
         <div class="absolute inset-0 opacity-25 mesh-grid pointer-events-none"></div>
@@ -13,13 +13,13 @@
                     ابدأ تجارتك الإلكترونية
                     <span class="hero-accent">على أساس صحيح</span>
                 </h1>
-                <p class="hero-rise text-sm sm:text-lg text-white/70 leading-relaxed mb-6 max-w-lg" style="--d: .16s">
+                <p class="hero-rise text-sm sm:text-lg text-muted leading-relaxed mb-6 max-w-lg" style="--d: .16s">
                     أدلة عملية وأدوات جاهزة تساعدك على اختيار فكرتك، تأسيس متجرك، وتطوير مشروعك بثقة.
                 </p>
 
                 <div class="hero-rise flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-6" style="--d: .24s">
                     <a href="#start" class="btn btn-acc w-full sm:w-auto">ابدأ من هنا</a>
-                    <a href="#consult" class="btn btn-line-light w-full sm:w-auto">احجز استشارة</a>
+                    <a href="#consult" class="btn btn-line w-full sm:w-auto">احجز استشارة</a>
                 </div>
 
                 <div class="hero-rise flex flex-wrap items-center gap-2 sm:gap-3" style="--d: .32s">
@@ -27,7 +27,7 @@
                     <span class="hero-chip"><b class="text-accent">3</b> مجانية</span>
                     <span class="hero-chip"><b>15</b> ر.ع. للاستشارة</span>
                 </div>
-                <p class="hero-rise text-[11px] text-white/40 mt-4" style="--d: .4s">الأسعار بالريال العُماني · تنزيل فوري بعد تأكيد الدفع</p>
+                <p class="hero-rise text-[11px] text-muted mt-4" style="--d: .4s">الأسعار بالريال العُماني · تنزيل فوري بعد تأكيد الدفع</p>
             </div>
 
             <div id="about" class="hero-rise relative mx-auto w-full max-w-md lg:max-w-none lg:h-full" style="--d: .18s">
@@ -51,7 +51,7 @@
         </a>
     </section>
 
-    <section id="start" class="py-12 sm:py-16 lg:py-20 bg-surface relative overflow-hidden">
+    <section id="start" class="py-12 sm:py-16 lg:py-20 bg-canvas relative overflow-hidden">
         <div class="orb -left-16 top-10 w-72 h-72 bg-accent/15"></div>
         <div class="orb -right-10 bottom-10 w-80 h-80 bg-accent/10"></div>
         <div class="wrap relative">
@@ -116,7 +116,7 @@
         </div>
     </section>
 
-    <section id="consult" class="py-12 sm:py-16 lg:py-20 bg-primary text-white relative overflow-hidden">
+    <section id="consult" class="py-12 sm:py-16 lg:py-20 bg-surface text-primary relative overflow-hidden">
         <div class="orb right-0 top-0 w-[420px] h-[420px] bg-accent/15"></div>
         <div class="orb -left-20 bottom-0 w-80 h-80 bg-accent/20"></div>
         <div class="wrap relative">
@@ -126,7 +126,7 @@
                 </div>
             @endif
 
-            <div class="bg-white text-primary border border-white/10 rounded-3xl sm:rounded-[40px] p-5 sm:p-8 lg:p-14 shadow-soft relative overflow-hidden">
+            <div class="bg-white text-primary border border-line rounded-3xl sm:rounded-[40px] p-5 sm:p-8 lg:p-14 shadow-soft relative overflow-hidden">
                 <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-l from-accent via-accent-hover to-primary"></div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
@@ -343,7 +343,7 @@
         </div>
     </section>
 
-    <section id="faq" class="py-12 sm:py-16 lg:py-20 bg-surface">
+    <section id="faq" class="py-12 sm:py-16 lg:py-20 bg-canvas">
         <div class="wrap max-w-3xl">
             <h2 class="text-2xl sm:text-3xl lg:text-5xl font-bold mb-8 sm:mb-12 text-center">أسئلة شائعة</h2>
 

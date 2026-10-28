@@ -77,7 +77,7 @@
     }
 
     .hero .mesh-grid {
-        background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+        background-image: radial-gradient(rgba(18, 18, 18, 0.06) 1px, transparent 1px);
     }
 
     .hero {
@@ -150,7 +150,7 @@
     }
 
     .site-footer {
-        @apply bg-primary text-white;
+        @apply bg-white text-primary border-t border-line;
     }
 
     .site-footer-inner {
@@ -162,7 +162,7 @@
     }
 
     .site-footer-nav {
-        @apply flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/70;
+        @apply flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted;
     }
 
     .site-footer-nav a {
@@ -191,11 +191,11 @@
     }
 
     .hero-chip {
-        @apply inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[11px] text-white/60;
+        @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-3 py-1.5 text-[11px] text-muted;
     }
 
     .hero-chip b {
-        @apply text-white text-sm;
+        @apply text-primary text-sm;
     }
 
     .hero-orb {
@@ -291,7 +291,7 @@
         transform: translateX(-50%);
         width: 1.4rem;
         height: 2.2rem;
-        border: 1px solid rgb(255 255 255 / 0.25);
+        border: 1px solid rgb(18 18 18 / 0.2);
         border-radius: 999px;
         align-items: flex-start;
         justify-content: center;
