@@ -39,7 +39,7 @@ Route::get('/dl/{file}', function (string $file) {
 
     abort_unless($product && filled($product->file_path) && Storage::disk('public')->exists($product->file_path), 404);
 
-    $product->recordDownload();
+    $product->recordDownload(request()->ip(), request()->userAgent());
 
     return $product->downloadResponse();
 })->where('file', '[A-Za-z0-9][A-Za-z0-9._-]*\.[A-Za-z0-9]+')->name('digital-products.download');

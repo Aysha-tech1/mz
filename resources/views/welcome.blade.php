@@ -70,8 +70,7 @@
                         <div class="flex items-start justify-between gap-4 mb-4">
                             <span class="file-number shrink-0">{{ $product->step_number }}</span>
                             <div class="min-w-0 flex-1 text-right">
-                                <h3 class="text-lg sm:text-xl font-bold mb-1 leading-snug">{{ $product->title }}</h3>
-                                <p class="text-xs mb-2 {{ $product->is_featured ? 'text-primary/60' : 'text-muted' }}">{{ $product->displayDownloads() }}</p>
+                                <h3 class="text-lg sm:text-xl font-bold mb-2 leading-snug">{{ $product->title }}</h3>
                                 <p @class(['text-sm leading-relaxed', 'text-primary/70' => $product->is_featured, 'text-muted' => ! $product->is_featured])>
                                     {{ $product->description }}
                                 </p>
@@ -86,6 +85,9 @@
                                 <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
                                 التفاصيل
                             </a>
+                            <span @class(['text-sm font-bold', 'text-primary/70' => $product->is_featured, 'text-muted' => ! $product->is_featured])>
+                                {{ $product->displaySales() }}
+                            </span>
                             @if($product->savingsAmount())
                                 <span class="text-xs font-bold {{ $product->is_featured ? 'text-primary' : 'text-accent' }}">
                                     عرض خاص · وفر {{ $product->savingsAmount() }}

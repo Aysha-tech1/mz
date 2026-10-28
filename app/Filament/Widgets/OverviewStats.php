@@ -4,7 +4,7 @@ namespace App\Filament\Widgets;
 
 use App\Filament\Resources\AvailabilityResource;
 use App\Filament\Resources\BookingResource;
-use App\Filament\Resources\DigitalProductResource;
+use App\Filament\Resources\FileSaleResource;
 use App\Models\Availability;
 use App\Models\Booking;
 use App\Models\DigitalProduct;
@@ -65,11 +65,11 @@ class OverviewStats extends StatsOverviewWidget
                 ->descriptionIcon('heroicon-m-check-circle')
                 ->color('primary')
                 ->url(AvailabilityResource::getUrl('index')),
-            Stat::make('الملفات الظاهرة', Number::format($activeFiles))
-                ->description($comingSoon.' قريبًا · '.Number::format($fileDownloads).' تنزيل')
-                ->descriptionIcon('heroicon-m-document-text')
+            Stat::make('مبيعات الملفات', Number::format($fileDownloads))
+                ->description($comingSoon.' قريبًا · '.$activeFiles.' ملف ظاهر')
+                ->descriptionIcon('heroicon-m-chart-bar')
                 ->color('warning')
-                ->url(DigitalProductResource::getUrl('index')),
+                ->url(FileSaleResource::getUrl('index')),
         ];
     }
 }

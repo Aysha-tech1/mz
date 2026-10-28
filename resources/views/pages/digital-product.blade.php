@@ -16,7 +16,7 @@
                     <div class="min-w-0 flex-1 text-right">
                         <p class="text-sm font-bold mb-3 {{ $digitalProduct->is_featured ? 'text-primary/70' : 'text-accent' }}">{{ $digitalProduct->label }}</p>
                         <h1 class="text-2xl sm:text-3xl lg:text-5xl font-bold leading-tight mb-2">{{ $digitalProduct->title }}</h1>
-                        <p class="text-sm mb-4 {{ $digitalProduct->is_featured ? 'text-primary/60' : 'text-muted' }}">{{ $digitalProduct->displayDownloads() }}</p>
+                        <p class="text-sm mb-4 {{ $digitalProduct->is_featured ? 'text-primary/60' : 'text-muted' }}">{{ $digitalProduct->displaySales() }}</p>
                         <p class="text-lg {{ $digitalProduct->is_featured ? 'text-primary/80' : 'text-muted' }}">{{ $digitalProduct->description }}</p>
                     </div>
                 </div>

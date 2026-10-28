@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -153,14 +154,33 @@ class DigitalProduct extends Model
         return $this->formatOmr($saved);
     }
 
-    public function recordDownload(): void
+    public function sales(): HasMany
     {
+        return $this->hasMany(FileSale::class);
+    }
+
+    public function recordDownload(?string $ip = null, ?string $userAgent = null): void
+    {
+        $this->sales()->create([
+            'type' => $this->is_free ? 'download' : 'sale',
+            'filename' => $this->asciiDownloadFilename(),
+            'ip' => $ip,
+            'user_agent' => $userAgent,
+        ]);
+
         $this->increment('downloads_count');
     }
 
     public function displayDownloads(): string
     {
-        return ((int) $this->downloads_count).' تنزيل';
+        return $this->displaySales();
+    }
+
+    public function displaySales(): string
+    {
+        $count = (int) $this->downloads_count;
+
+        return $count.' مبيعة';
     }
 
     public function ctaLabel(): string

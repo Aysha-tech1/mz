@@ -146,9 +146,9 @@ class DigitalProductResource extends Resource
                     ->label('اسم الملف')
                     ->searchable()
                     ->wrap()
-                    ->description(fn (DigitalProduct $record): string => $record->downloads_count.' تنزيل'),
+                    ->description(fn (DigitalProduct $record): string => $record->displaySales()),
                 Tables\Columns\TextColumn::make('downloads_count')
-                    ->label('التنزيلات')
+                    ->label('المبيعات')
                     ->sortable()
                     ->alignCenter()
                     ->badge()
