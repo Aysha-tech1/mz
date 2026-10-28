@@ -37,5 +37,6 @@ return [
 
     'whatsapp' => env('WHATSAPP_URL', 'https://wa.me/968'),
     'instagram' => env('INSTAGRAM_URL', 'https://www.instagram.com/m7zz'),
+    'email' => env('CONTACT_EMAIL', 'info@m7zz.com'),
 
 ];
