@@ -11,6 +11,7 @@ class FileSale extends Model
         'digital_product_id',
         'type',
         'filename',
+        'email',
         'ip',
         'user_agent',
     ];
@@ -22,6 +23,10 @@ class FileSale extends Model
 
     public function typeLabel(): string
     {
-        return $this->type === 'sale' ? 'بيع' : 'تنزيل';
+        return match ($this->type) {
+            'sale' => 'بيع',
+            'lead' => 'اهتمام',
+            default => 'تنزيل',
+        };
     }
 }

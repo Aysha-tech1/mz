@@ -43,6 +43,8 @@ class FileSaleResource extends Resource
                 TextEntry::make('type')
                     ->label('النوع')
                     ->formatStateUsing(fn (FileSale $record): string => $record->typeLabel()),
+                TextEntry::make('email')
+                    ->label('البريد الإلكتروني'),
                 TextEntry::make('filename')
                     ->label('اسم التنزيل'),
                 TextEntry::make('ip')
@@ -73,6 +75,10 @@ class FileSaleResource extends Resource
                     ->badge()
                     ->formatStateUsing(fn (FileSale $record): string => $record->typeLabel())
                     ->color(fn (string $state): string => $state === 'sale' ? 'success' : 'warning'),
+                Tables\Columns\TextColumn::make('email')
+                    ->label('البريد')
+                    ->searchable()
+                    ->copyable(),
                 Tables\Columns\TextColumn::make('filename')
                     ->label('اسم التنزيل')
                     ->toggleable(),
@@ -90,6 +96,7 @@ class FileSaleResource extends Resource
                     ->options([
                         'download' => 'تنزيل',
                         'sale' => 'بيع',
+                        'lead' => 'اهتمام',
                     ]),
             ])
             ->actions([

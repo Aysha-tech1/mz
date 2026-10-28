@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -159,16 +160,26 @@ class DigitalProduct extends Model
         return $this->hasMany(FileSale::class);
     }
 
-    public function recordDownload(?string $ip = null, ?string $userAgent = null): void
+    public function recordDownload(?string $ip = null, ?string $userAgent = null, ?string $email = null, ?string $type = null): void
     {
+        $type ??= $this->is_free ? 'download' : 'lead';
+
         $this->sales()->create([
-            'type' => $this->is_free ? 'download' : 'sale',
+            'type' => $type,
             'filename' => $this->asciiDownloadFilename(),
+            'email' => $email,
             'ip' => $ip,
             'user_agent' => $userAgent,
         ]);
 
-        $this->increment('downloads_count');
+        if (in_array($type, ['download', 'sale'], true)) {
+            $this->increment('downloads_count');
+        }
+    }
+
+    public function claimUrl(): string
+    {
+        return route('digital-products.claim', $this);
     }
 
     public function displayDownloads(): string
@@ -274,6 +285,15 @@ class DigitalProduct extends Model
         return route('digital-products.download', [
             'file' => $this->asciiDownloadFilename(),
         ]);
+    }
+
+    public function signedDownloadUrl(): string
+    {
+        return URL::temporarySignedRoute(
+            'digital-products.download',
+            now()->addDays(14),
+            ['file' => $this->asciiDownloadFilename()],
+        );
     }
 
     public function downloadResponse(): BinaryFileResponse

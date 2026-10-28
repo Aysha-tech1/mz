@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'محمود الدرعي - خبير التجارة الإلكترونية' }}</title>
     <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/png">
     <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}">
@@ -25,5 +26,6 @@
 
         @include('partials.footer')
     </div>
+    @include('partials.file-email-modal')
 </body>
 </html>

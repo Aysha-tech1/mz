@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FileDownloadController;
 use App\Models\ConsultationType;
 use App\Models\Availability;
 use App\Models\Booking;
@@ -29,20 +30,13 @@ Route::get('/files/{digitalProduct}', function (DigitalProduct $digitalProduct) 
     return view('pages.digital-product', compact('digitalProduct'));
 })->name('digital-products.show');
 
-Route::get('/dl/{file}', function (string $file) {
-    $product = DigitalProduct::query()
-        ->where('is_active', true)
-        ->where('is_free', true)
-        ->where('is_coming_soon', false)
-        ->get()
-        ->first(fn (DigitalProduct $product): bool => $product->asciiDownloadFilename() === $file);
+Route::post('/files/{digitalProduct}/claim', [FileDownloadController::class, 'claim'])
+    ->middleware('throttle:8,1')
+    ->name('digital-products.claim');
 
-    abort_unless($product && filled($product->file_path) && Storage::disk('public')->exists($product->file_path), 404);
-
-    $product->recordDownload(request()->ip(), request()->userAgent());
-
-    return $product->downloadResponse();
-})->where('file', '[A-Za-z0-9][A-Za-z0-9._-]*\.[A-Za-z0-9]+')->name('digital-products.download');
+Route::get('/dl/{file}', [FileDownloadController::class, 'download'])
+    ->where('file', '[A-Za-z0-9][A-Za-z0-9._-]*\.[A-Za-z0-9]+')
+    ->name('digital-products.download');
 
 Route::get('/files/{digitalProduct}/download/{file}', function (DigitalProduct $digitalProduct, string $file) {
     abort_unless($digitalProduct->asciiDownloadFilename() === $file, 404);

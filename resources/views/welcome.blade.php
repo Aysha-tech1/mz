@@ -110,9 +110,9 @@
                             @if($product->is_coming_soon)
                                 <span class="file-cta file-cta-soon">قريبًا</span>
                             @elseif($product->is_free && $product->fileUrl())
-                                <a href="{{ $product->downloadUrl() }}" class="file-cta" download="{{ $product->asciiDownloadFilename() }}">تحميل مجاني</a>
+                                <button type="button" class="file-cta" @click="$dispatch('open-file-email', { title: @js($product->title), url: @js($product->claimUrl()) })">تحميل مجاني</button>
                             @else
-                                <a href="{{ route('digital-products.show', $product) }}" class="file-cta">{{ $product->ctaLabel() }}</a>
+                                <button type="button" class="file-cta" @click="$dispatch('open-file-email', { title: @js($product->title), url: @js($product->claimUrl()) })">{{ $product->ctaLabel() }}</button>
                             @endif
                         </div>
                     </article>

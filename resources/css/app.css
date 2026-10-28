@@ -104,6 +104,10 @@
         @apply bg-white border border-line rounded-3xl sm:rounded-[1.75rem] p-5 sm:p-7 flex flex-col min-h-0 sm:min-h-[240px] shadow-soft overflow-hidden transition-all duration-300 hover:border-accent sm:hover:-translate-y-1;
     }
 
+    button.file-cta {
+        @apply border-0 cursor-pointer;
+    }
+
     .file-card-featured {
         @apply bg-accent text-primary border-accent hover:border-accent-hover;
     }
@@ -138,6 +142,22 @@
 
     .file-card-featured .file-sales-chip {
         @apply bg-primary text-accent border-primary;
+    }
+
+    .file-email-overlay {
+        @apply fixed inset-0 z-[80] flex items-center justify-center p-4;
+    }
+
+    .file-email-backdrop {
+        @apply absolute inset-0 bg-primary/50 backdrop-blur-sm;
+    }
+
+    .file-email-card {
+        @apply relative z-10 w-full max-w-md bg-white border border-line rounded-3xl p-6 sm:p-8 shadow-soft text-right;
+    }
+
+    .file-email-close {
+        @apply absolute top-4 left-4 w-9 h-9 rounded-full border border-line text-xl leading-none text-muted hover:bg-surface;
     }
 
     .file-cta-soon {
