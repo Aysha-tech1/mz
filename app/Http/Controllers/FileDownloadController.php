@@ -36,16 +36,17 @@ class FileDownloadController extends Controller
         );
 
         try {
-            Mail::to($validated['email'])->send(new FileDeliveryMail($digitalProduct, $canDownload));
+            Mail::to($validated['email'])->send(new FileDeliveryMail($digitalProduct, $canDownload, $validated['email']));
         } catch (\Throwable $e) {
             report($e);
         }
 
         if ($canDownload) {
             $request->session()->put('file_unlock.'.$digitalProduct->id, true);
+            $request->session()->put('file_email.'.$digitalProduct->id, $validated['email']);
 
             return response()->json([
-                'download_url' => $digitalProduct->downloadUrl(),
+                'download_url' => $digitalProduct->signedDownloadUrl($validated['email']),
             ]);
         }
 
@@ -68,6 +69,15 @@ class FileDownloadController extends Controller
         if (! $request->session()->get('file_unlock.'.$product->id) && ! $request->hasValidSignature()) {
             return redirect('/#start');
         }
+
+        $email = $request->query('email') ?: $request->session()->get('file_email.'.$product->id);
+
+        $product->recordDownload(
+            $request->ip(),
+            $request->userAgent(),
+            is_string($email) ? $email : null,
+            'download',
+        );
 
         return $product->downloadResponse();
     }

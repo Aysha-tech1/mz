@@ -172,9 +172,9 @@ class DigitalProduct extends Model
             'user_agent' => $userAgent,
         ]);
 
-        if (in_array($type, ['download', 'sale'], true)) {
-            $this->increment('downloads_count');
-        }
+        static::query()->whereKey($this->getKey())->update([
+            'downloads_count' => $this->sales()->whereIn('type', ['download', 'sale'])->count(),
+        ]);
     }
 
     public function claimUrl(): string
@@ -287,12 +287,20 @@ class DigitalProduct extends Model
         ]);
     }
 
-    public function signedDownloadUrl(): string
+    public function signedDownloadUrl(?string $email = null): string
     {
+        $parameters = [
+            'file' => $this->asciiDownloadFilename(),
+        ];
+
+        if (filled($email)) {
+            $parameters['email'] = $email;
+        }
+
         return URL::temporarySignedRoute(
             'digital-products.download',
             now()->addDays(14),
-            ['file' => $this->asciiDownloadFilename()],
+            $parameters,
         );
     }
 

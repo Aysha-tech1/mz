@@ -28,7 +28,7 @@
                                     الملف مرفق مع هذه الرسالة، ويمكنك تحميله أيضًا من الزر أدناه.
                                 </p>
                                 <p style="margin:0 0 24px;">
-                                    <a href="{{ $product->signedDownloadUrl() }}" style="display:inline-block;background:#f59e0b;color:#121212;text-decoration:none;font-weight:700;padding:12px 22px;border-radius:999px;">تحميل الملف</a>
+                                    <a href="{{ $product->signedDownloadUrl($email) }}" style="display:inline-block;background:#f59e0b;color:#121212;text-decoration:none;font-weight:700;padding:12px 22px;border-radius:999px;">تحميل الملف</a>
                                 </p>
                             @else
                                 <p style="margin:0 0 18px;color:#57534e;font-size:15px;line-height:1.9;">

@@ -105,10 +105,12 @@
                 const csrf = document.querySelector('meta[name="csrf-token"]');
                 const response = await fetch(claimUrl, {
                     method: 'POST',
+                    credentials: 'same-origin',
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
                         'X-CSRF-TOKEN': csrf ? csrf.content : '',
+                        'X-Requested-With': 'XMLHttpRequest',
                     },
                     body: JSON.stringify({ email: input.value }),
                 });

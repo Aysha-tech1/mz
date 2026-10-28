@@ -14,6 +14,7 @@ class FileDeliveryMail extends Mailable
     public function __construct(
         public DigitalProduct $product,
         public bool $attachFile = true,
+        public ?string $email = null,
     ) {}
 
     public function envelope(): Envelope

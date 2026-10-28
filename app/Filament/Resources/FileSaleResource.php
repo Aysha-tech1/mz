@@ -86,6 +86,7 @@ class FileSaleResource extends Resource
                     ->label('IP')
                     ->toggleable(),
             ])
+            ->poll('10s')
             ->defaultSort('created_at', 'desc')
             ->filters([
                 Tables\Filters\SelectFilter::make('digital_product_id')
