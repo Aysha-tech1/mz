@@ -37,6 +37,8 @@ Route::get('/files/{digitalProduct}/download', function (DigitalProduct $digital
         return redirect()->route('digital-products.download', $digitalProduct, 301);
     }
 
+    $digitalProduct->recordDownload();
+
     return Storage::disk('public')->download(
         $digitalProduct->file_path,
         $digitalProduct->downloadFilename(),

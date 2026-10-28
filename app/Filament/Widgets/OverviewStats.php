@@ -42,6 +42,7 @@ class OverviewStats extends StatsOverviewWidget
 
         $activeFiles = DigitalProduct::query()->where('is_active', true)->count();
         $comingSoon = DigitalProduct::query()->where('is_coming_soon', true)->count();
+        $fileDownloads = (int) DigitalProduct::query()->sum('downloads_count');
 
         return [
             Stat::make('حجوزات اليوم', Number::format($todayBookings))
@@ -65,7 +66,7 @@ class OverviewStats extends StatsOverviewWidget
                 ->color('primary')
                 ->url(AvailabilityResource::getUrl('index')),
             Stat::make('الملفات الظاهرة', Number::format($activeFiles))
-                ->description($comingSoon.' قريبًا')
+                ->description($comingSoon.' قريبًا · '.Number::format($fileDownloads).' تنزيل')
                 ->descriptionIcon('heroicon-m-document-text')
                 ->color('warning')
                 ->url(DigitalProductResource::getUrl('index')),

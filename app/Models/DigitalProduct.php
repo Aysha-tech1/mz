@@ -58,6 +58,7 @@ class DigitalProduct extends Model
             'is_coming_soon' => 'boolean',
             'is_featured' => 'boolean',
             'step_number' => 'integer',
+            'downloads_count' => 'integer',
         ];
     }
 
@@ -148,6 +149,16 @@ class DigitalProduct extends Model
         }
 
         return $this->formatOmr($saved);
+    }
+
+    public function recordDownload(): void
+    {
+        $this->increment('downloads_count');
+    }
+
+    public function displayDownloads(): string
+    {
+        return ((int) $this->downloads_count).' تنزيل';
     }
 
     public function ctaLabel(): string

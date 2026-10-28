@@ -106,6 +106,12 @@ class DigitalProductResource extends Resource
                     ->prefix('ر.ع.')
                     ->helperText('اختياري للعروض')
                     ->visible(fn (Get $get): bool => ! $get('is_free')),
+                Components\TextInput::make('downloads_count')
+                    ->label('عدد التنزيلات')
+                    ->disabled()
+                    ->dehydrated(false)
+                    ->numeric()
+                    ->default(0),
                 Components\FileUpload::make('file_path')
                     ->label('ملف التحميل')
                     ->helperText('PDF، Word، Excel، PowerPoint، CSV، TXT، ZIP')
@@ -139,7 +145,14 @@ class DigitalProductResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->label('اسم الملف')
                     ->searchable()
-                    ->wrap(),
+                    ->wrap()
+                    ->description(fn (DigitalProduct $record): string => $record->downloads_count.' تنزيل'),
+                Tables\Columns\TextColumn::make('downloads_count')
+                    ->label('التنزيلات')
+                    ->sortable()
+                    ->alignCenter()
+                    ->badge()
+                    ->color('warning'),
                 Tables\Columns\TextColumn::make('slug')
                     ->label('الرابط')
                     ->formatStateUsing(fn (?string $state): string => $state ? '/files/'.$state : '—')
