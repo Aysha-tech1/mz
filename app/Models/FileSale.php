@@ -22,6 +22,6 @@ class FileSale extends Model
 
     public function typeLabel(): string
     {
-        return $this->type === 'sale' ? 'مبيعة' : 'تنزيل';
+        return $this->type === 'sale' ? 'بيع' : 'تنزيل';
     }
 }

@@ -180,7 +180,7 @@ class DigitalProduct extends Model
     {
         $count = (int) $this->downloads_count;
 
-        return $count.' مبيعة';
+        return $count.' مبيعات';
     }
 
     public function ctaLabel(): string

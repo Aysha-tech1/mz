@@ -87,7 +87,7 @@ class FileSaleResource extends Resource
                     ->label('النوع')
                     ->options([
                         'download' => 'تنزيل',
-                        'sale' => 'مبيعة',
+                        'sale' => 'بيع',
                     ]),
             ])
             ->actions([

@@ -103,7 +103,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 16l4-5 3 3 6-8"/>
                                     </svg>
                                     <b>{{ (int) $product->downloads_count }}</b>
-                                    مبيعة
+                                    مبيعات
                                 </span>
                             </div>
 
