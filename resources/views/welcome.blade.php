@@ -2,71 +2,53 @@
 
 @section('content')
     <section class="hero relative overflow-hidden bg-primary text-white">
-        <div class="orb -top-24 -right-16 w-[420px] h-[420px] bg-accent/15"></div>
-        <div class="orb bottom-[-80px] -left-16 w-[320px] h-[320px] bg-accent/25"></div>
-        <div class="absolute inset-0 opacity-30 mesh-grid pointer-events-none"></div>
+        <div class="hero-orb hero-orb-a" aria-hidden="true"></div>
+        <div class="hero-orb hero-orb-b" aria-hidden="true"></div>
+        <div class="absolute inset-0 opacity-25 mesh-grid pointer-events-none"></div>
 
-        <div class="wrap relative h-full grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-5 sm:gap-8 lg:gap-10 items-center py-6 lg:py-6">
-            <div class="order-2 lg:order-1 min-h-0">
-                <span class="pill mb-3">متاح الآن · ابدأ مجانًا</span>
-                <h1 class="text-[1.65rem] sm:text-4xl lg:text-5xl font-bold leading-[1.25] mb-3">
+        <div class="wrap relative h-full grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-8 lg:gap-12 items-center py-8 lg:py-8">
+            <div class="min-w-0">
+                <span class="pill hero-rise mb-4" style="--d: 0s">متاح الآن · 3 ملفات مجانية</span>
+                <h1 class="hero-rise text-[1.75rem] sm:text-4xl lg:text-[3.15rem] font-bold leading-[1.28] mb-4" style="--d: .08s">
                     ابدأ تجارتك الإلكترونية
-                    <span class="block text-accent">على أساس صحيح</span>
+                    <span class="hero-accent">على أساس صحيح</span>
                 </h1>
-                <p class="text-sm sm:text-base text-white/70 leading-relaxed mb-5 max-w-xl">
+                <p class="hero-rise text-sm sm:text-lg text-white/70 leading-relaxed mb-6 max-w-lg" style="--d: .16s">
                     أدلة عملية وأدوات جاهزة تساعدك على اختيار فكرتك، تأسيس متجرك، وتطوير مشروعك بثقة.
                 </p>
 
-                <div class="grid grid-cols-3 gap-2 sm:flex sm:items-center sm:gap-8 mb-5 text-center sm:text-right">
-                    <div>
-                        <b class="block text-xl sm:text-2xl font-bold text-white">8</b>
-                        <span class="text-white/50 text-[11px]">خطوات عملية</span>
-                    </div>
-                    <div class="hidden sm:block w-px h-8 bg-white/15"></div>
-                    <div>
-                        <b class="block text-xl sm:text-2xl font-bold text-accent">3</b>
-                        <span class="text-white/50 text-[11px]">مجانية</span>
-                    </div>
-                    <div class="hidden sm:block w-px h-8 bg-white/15"></div>
-                    <div>
-                        <b class="block text-xl sm:text-2xl font-bold text-white">15</b>
-                        <span class="text-white/50 text-[11px]">ر.ع. للاستشارة</span>
-                    </div>
-                </div>
-
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                    <a href="#start" class="btn btn-acc w-full sm:w-auto">ابدأ من هنا ←</a>
+                <div class="hero-rise flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-6" style="--d: .24s">
+                    <a href="#start" class="btn btn-acc w-full sm:w-auto">ابدأ من هنا</a>
                     <a href="#consult" class="btn btn-line-light w-full sm:w-auto">احجز استشارة</a>
                 </div>
-                <p class="text-[11px] text-white/45 mt-3">الأسعار بالريال العُماني · تنزيل فوري بعد تأكيد الدفع</p>
+
+                <div class="hero-rise flex flex-wrap items-center gap-2 sm:gap-3" style="--d: .32s">
+                    <span class="hero-chip"><b>8</b> خطوات عملية</span>
+                    <span class="hero-chip"><b class="text-accent">3</b> مجانية</span>
+                    <span class="hero-chip"><b>15</b> ر.ع. للاستشارة</span>
+                </div>
+                <p class="hero-rise text-[11px] text-white/40 mt-4" style="--d: .4s">الأسعار بالريال العُماني · تنزيل فوري بعد تأكيد الدفع</p>
             </div>
 
-            <div id="about" class="order-1 lg:order-2 relative h-[280px] sm:h-[360px] md:h-[420px] lg:h-full">
-                <div class="absolute -inset-1 sm:-inset-2 rounded-[1.4rem] bg-gradient-to-br from-accent/70 via-transparent to-white/10 -rotate-1 sm:-rotate-2"></div>
-                <div class="relative h-full rounded-[1.2rem] sm:rounded-[1.4rem] overflow-hidden border border-white/10">
-                    <img src="{{ asset('images/hero.png') }}"
-                         alt="محمود الدرعي"
-                         class="w-full h-full object-cover object-center">
-
-                    <div class="absolute top-2 right-2 sm:top-3 sm:right-3 max-w-[46%]">
-                        <div class="bg-white/95 backdrop-blur-sm px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl">
-                            <b class="block text-accent text-[11px] sm:text-xs">ابدأ مجانًا</b>
-                            <small class="text-muted text-[10px] hidden xs:block sm:inline">ملف اختيار المجال</small>
-                        </div>
+            <div id="about" class="hero-rise relative mx-auto w-full max-w-md lg:max-w-none lg:h-full" style="--d: .18s">
+                <div class="hero-portrait">
+                    <img src="{{ asset('images/hero.png') }}" alt="محمود الدرعي" class="hero-portrait-img">
+                    <div class="hero-portrait-fade"></div>
+                    <div class="hero-id">
+                        <p class="font-bold text-sm sm:text-base">محمود الدرعي</p>
+                        <p class="text-accent text-[11px] sm:text-xs mt-0.5">مختص في التجارة الإلكترونية والمتاجر الرقمية</p>
                     </div>
-                    <div class="absolute top-2 left-2 sm:top-3 sm:left-3 max-w-[46%]">
-                        <div class="bg-primary/90 text-white px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl text-left border border-white/10">
-                            <b class="block text-accent text-[11px] sm:text-xs">من 15.000 ر.ع.</b>
-                            <small class="text-white/70 text-[10px] hidden sm:inline">استشارة نصف ساعة</small>
-                        </div>
-                    </div>
-                    <div class="absolute inset-x-0 bottom-0 p-3 sm:p-4 bg-gradient-to-t from-primary via-primary/80 to-transparent">
-                        <h2 class="text-base sm:text-lg font-bold">محمود الدرعي</h2>
-                        <p class="text-accent text-[11px] sm:text-xs font-medium leading-snug">مختص في التجارة الإلكترونية وبناء المتاجر الرقمية</p>
-                    </div>
+                </div>
+                <div class="hero-float-card">
+                    <span class="hero-dot"></span>
+                    ملف مجاني للبداية
                 </div>
             </div>
         </div>
+
+        <a href="#start" class="hero-scroll hidden lg:flex" aria-label="انتقل إلى الملفات">
+            <span></span>
+        </a>
     </section>
 
     <section id="start" class="py-12 sm:py-16 lg:py-20 bg-surface relative overflow-hidden">
