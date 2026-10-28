@@ -183,13 +183,24 @@ class DigitalProduct extends Model
 
     public function downloadExtension(): string
     {
-        $extension = strtolower((string) pathinfo((string) $this->file_path, PATHINFO_EXTENSION));
+        $absolute = filled($this->file_path) && Storage::disk('public')->exists($this->file_path)
+            ? Storage::disk('public')->path((string) $this->file_path)
+            : null;
 
-        if ($extension === '' || ! in_array($extension, self::UPLOAD_EXTENSIONS, true)) {
-            $extension = $this->extensionFromMime();
+        if ($absolute) {
+            $sniffed = $this->sniffExtension($absolute);
+            if ($sniffed !== '') {
+                return $sniffed;
+            }
         }
 
-        return $extension;
+        $extension = strtolower((string) pathinfo((string) $this->file_path, PATHINFO_EXTENSION));
+
+        if ($extension !== '' && in_array($extension, self::UPLOAD_EXTENSIONS, true)) {
+            return $extension;
+        }
+
+        return $this->extensionFromMime() ?: 'bin';
     }
 
     public function downloadFilename(): string
@@ -241,8 +252,7 @@ class DigitalProduct extends Model
     public function downloadUrl(): string
     {
         return route('digital-products.download', [
-            'digitalProduct' => $this,
-            'extension' => $this->downloadExtension() ?: 'bin',
+            'file' => $this->asciiDownloadFilename(),
         ]);
     }
 
@@ -251,7 +261,8 @@ class DigitalProduct extends Model
         $path = Storage::disk('public')->path((string) $this->file_path);
         $filename = $this->asciiDownloadFilename();
 
-        return response()->download($path, $filename, $this->downloadHeaders());
+        return response()->download($path, $filename, $this->downloadHeaders())
+            ->setContentDisposition('attachment', $filename, $filename);
     }
 
     public function fileMimeType(): ?string
@@ -261,6 +272,46 @@ class DigitalProduct extends Model
         }
 
         return Storage::disk('public')->mimeType($this->file_path) ?: null;
+    }
+
+    private function sniffExtension(string $absolutePath): string
+    {
+        $handle = fopen($absolutePath, 'rb');
+        $magic = $handle ? (string) fread($handle, 8) : '';
+        if ($handle) {
+            fclose($handle);
+        }
+
+        if (str_starts_with($magic, '%PDF')) {
+            return 'pdf';
+        }
+
+        if (! str_starts_with($magic, 'PK')) {
+            return '';
+        }
+
+        $zip = new \ZipArchive;
+        if ($zip->open($absolutePath) !== true) {
+            return 'zip';
+        }
+
+        $names = '';
+        for ($i = 0; $i < min($zip->numFiles, 40); $i++) {
+            $names .= $zip->getNameIndex($i)."\n";
+        }
+        $zip->close();
+
+        if (str_contains($names, 'word/')) {
+            return 'docx';
+        }
+        if (str_contains($names, 'xl/')) {
+            return 'xlsx';
+        }
+        if (str_contains($names, 'ppt/')) {
+            return 'pptx';
+        }
+
+        return 'zip';
     }
 
     private function extensionFromMime(): string

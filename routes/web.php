@@ -29,25 +29,32 @@ Route::get('/files/{digitalProduct}', function (DigitalProduct $digitalProduct) 
     return view('pages.digital-product', compact('digitalProduct'));
 })->name('digital-products.show');
 
-Route::get('/files/{digitalProduct}/download.{extension}', function (DigitalProduct $digitalProduct, string $extension) {
-    abort_unless($digitalProduct->is_active && $digitalProduct->is_free && ! $digitalProduct->is_coming_soon, 404);
-    abort_unless(filled($digitalProduct->file_path) && Storage::disk('public')->exists($digitalProduct->file_path), 404);
-    abort_unless(strtolower($extension) === $digitalProduct->downloadExtension(), 404);
+Route::get('/dl/{file}', function (string $file) {
+    $product = DigitalProduct::query()
+        ->where('is_active', true)
+        ->where('is_free', true)
+        ->where('is_coming_soon', false)
+        ->get()
+        ->first(fn (DigitalProduct $product): bool => $product->asciiDownloadFilename() === $file);
 
-    if (filled($digitalProduct->slug) && request()->segment(2) !== $digitalProduct->slug) {
-        return redirect()->to($digitalProduct->downloadUrl(), 301);
-    }
+    abort_unless($product && filled($product->file_path) && Storage::disk('public')->exists($product->file_path), 404);
 
-    $digitalProduct->recordDownload();
+    $product->recordDownload();
 
-    return $digitalProduct->downloadResponse();
-})->where('extension', '[A-Za-z0-9]+')->name('digital-products.download');
+    return $product->downloadResponse();
+})->where('file', '[A-Za-z0-9][A-Za-z0-9._-]*\.[A-Za-z0-9]+')->name('digital-products.download');
+
+Route::get('/files/{digitalProduct}/download/{file}', function (DigitalProduct $digitalProduct, string $file) {
+    abort_unless($digitalProduct->asciiDownloadFilename() === $file, 404);
+
+    return redirect()->to($digitalProduct->downloadUrl(), 301);
+})->where('file', '[A-Za-z0-9][A-Za-z0-9._-]*\.[A-Za-z0-9]+');
 
 Route::get('/files/{digitalProduct}/download', function (DigitalProduct $digitalProduct) {
     abort_unless($digitalProduct->is_active && $digitalProduct->is_free && ! $digitalProduct->is_coming_soon, 404);
     abort_unless(filled($digitalProduct->file_path) && Storage::disk('public')->exists($digitalProduct->file_path), 404);
 
-    return redirect()->to($digitalProduct->downloadUrl());
+    return redirect()->to($digitalProduct->downloadUrl(), 301);
 });
 
 Route::post('/bookings', function (Request $request) {
