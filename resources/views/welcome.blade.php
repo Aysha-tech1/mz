@@ -104,7 +104,7 @@
                             @if($product->is_coming_soon)
                                 <span class="file-cta file-cta-soon">قريبًا</span>
                             @elseif($product->is_free && $product->fileUrl())
-                                <a href="{{ $product->downloadUrl() }}" class="file-cta">تحميل مجاني</a>
+                                <a href="{{ $product->downloadUrl() }}" class="file-cta" download="{{ $product->asciiDownloadFilename() }}">تحميل مجاني</a>
                             @else
                                 <a href="{{ route('digital-products.show', $product) }}" class="file-cta">{{ $product->ctaLabel() }}</a>
                             @endif

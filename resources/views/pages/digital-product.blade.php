@@ -39,7 +39,7 @@
                     @if($digitalProduct->is_coming_soon)
                         <span class="file-cta file-cta-soon">قريبًا</span>
                     @elseif($digitalProduct->is_free && $digitalProduct->fileUrl())
-                        <a href="{{ $digitalProduct->downloadUrl() }}" class="btn btn-acc">تحميل مجاني</a>
+                        <a href="{{ $digitalProduct->downloadUrl() }}" class="btn btn-acc" download="{{ $digitalProduct->asciiDownloadFilename() }}">تحميل مجاني</a>
                     @elseif($digitalProduct->is_free)
                         <span class="file-cta file-cta-soon">سيتوفر التحميل قريبًا</span>
                     @else

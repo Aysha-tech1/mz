@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\HeaderUtils;
 
 class DigitalProduct extends Model
 {
@@ -194,24 +193,14 @@ class DigitalProduct extends Model
 
     public function downloadFilename(): string
     {
-        $extension = $this->downloadExtension();
-        $base = preg_replace('/[\\\\\/:*?"<>|]+/u', '', (string) $this->title) ?? '';
-        $base = trim($base, " \t\n\r\0\x0B.");
-        $base = $base !== '' ? $base : 'file';
-
-        if (mb_strlen($base) > 60) {
-            $base = mb_substr($base, 0, 60);
-        }
-
-        return $extension !== '' ? $base.'.'.$extension : $base;
+        return $this->asciiDownloadFilename();
     }
 
     public function asciiDownloadFilename(): string
     {
-        $extension = $this->downloadExtension();
-        $base = 'm7zz-'.$this->getKey();
+        $extension = $this->downloadExtension() ?: 'bin';
 
-        return $extension !== '' ? $base.'.'.$extension : $base;
+        return 'm7zz-'.$this->getKey().'.'.$extension;
     }
 
     public function downloadMimeType(): string
@@ -253,16 +242,9 @@ class DigitalProduct extends Model
     public function downloadResponse(): BinaryFileResponse
     {
         $path = Storage::disk('public')->path((string) $this->file_path);
-        $ascii = $this->asciiDownloadFilename();
-        $utf8 = $this->downloadFilename();
+        $filename = $this->asciiDownloadFilename();
 
-        $response = response()->download($path, $ascii, $this->downloadHeaders());
-        $response->headers->set(
-            'Content-Disposition',
-            HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_ATTACHMENT, $utf8, $ascii)
-        );
-
-        return $response;
+        return response()->download($path, $filename, $this->downloadHeaders());
     }
 
     public function fileMimeType(): ?string
