@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'محمود الدرعي - خبير التجارة الإلكترونية' }}</title>
-    <link rel="icon" href="{{ asset('images/logo.jpg') }}" type="image/jpeg">
-    <link rel="apple-touch-icon" href="{{ asset('images/logo.jpg') }}">
+    <link rel="icon" href="{{ asset('images/logo.jpg') }}?v=2" type="image/jpeg">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo.jpg') }}?v=2">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
