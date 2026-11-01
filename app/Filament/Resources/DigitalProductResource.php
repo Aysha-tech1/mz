@@ -114,12 +114,12 @@ class DigitalProductResource extends Resource
                     ->default(0),
                 Components\FileUpload::make('file_path')
                     ->label('ملف التحميل')
-                    ->helperText('PDF، Word، Excel، PowerPoint، CSV، TXT، ZIP')
+                    ->helperText('PDF، Word، Excel، PowerPoint، CSV، TXT، ZIP · الحد الأقصى 30 ميجا')
                     ->disk('public')
                     ->directory('digital-products')
                     ->acceptedFileTypes(DigitalProduct::UPLOAD_MIME_TYPES)
                     ->rule('mimes:'.implode(',', DigitalProduct::UPLOAD_EXTENSIONS))
-                    ->maxSize(51200)
+                    ->maxSize(30720)
                     ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
                         $extension = strtolower($file->getClientOriginalExtension() ?: ($file->guessExtension() ?: ''));
 

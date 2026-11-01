@@ -8,6 +8,7 @@
 
         <div class="wrap relative h-full grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-8 lg:gap-12 items-center py-8 lg:py-8">
             <div class="min-w-0">
+                <img src="{{ asset('images/logo.jpg') }}" alt="M7ZZ" class="hero-brand-logo hero-rise mb-4" style="--d: 0s">
                 <span class="pill hero-rise mb-4" style="--d: 0s">متاح الآن · 3 ملفات مجانية</span>
                 <h1 class="hero-rise text-[1.75rem] sm:text-4xl lg:text-[3.15rem] font-bold leading-[1.28] mb-4" style="--d: .08s">
                     ابدأ تجارتك الإلكترونية
@@ -32,8 +33,9 @@
 
             <div id="about" class="hero-rise relative mx-auto w-full max-w-md lg:max-w-none lg:h-full" style="--d: .18s">
                 <div class="hero-portrait">
-                    <img src="{{ asset('images/hero.png') }}" alt="محمود الدرعي" class="hero-portrait-img">
+                    <img src="{{ asset('images/hero.jpg') }}" alt="محمود الدرعي" class="hero-portrait-img">
                     <div class="hero-portrait-fade"></div>
+                    <img src="{{ asset('images/logo.jpg') }}" alt="M7ZZ" class="hero-logo-badge">
                     <div class="hero-id">
                         <p class="font-bold text-sm sm:text-base">محمود الدرعي</p>
                         <p class="text-accent text-[11px] sm:text-xs mt-0.5">مختص في التجارة الإلكترونية والمتاجر الرقمية</p>

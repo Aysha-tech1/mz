@@ -12,7 +12,7 @@
                 <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#ffffff;border:1px solid #e7e5e4;border-radius:24px;overflow:hidden;">
                     <tr>
                         <td style="background:#121212;padding:22px 28px;text-align:center;">
-                            <img src="{{ asset('images/logo.png') }}" alt="M7ZZ" width="48" height="48" style="display:inline-block;border-radius:12px;">
+                            <img src="{{ asset('images/logo.jpg') }}" alt="M7ZZ" width="48" height="48" style="display:inline-block;border-radius:12px;object-fit:cover;">
                             <p style="margin:10px 0 0;color:#f59e0b;font-weight:700;font-size:14px;">محمود الدرعي</p>
                         </td>
                     </tr>

@@ -29,8 +29,8 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->passwordReset()
             ->brandName('محمود الدرعي')
-            ->brandLogo(asset('images/logo.png'))
-            ->favicon(asset('images/logo.png'))
+            ->brandLogo(asset('images/logo.jpg'))
+            ->favicon(asset('images/logo.jpg'))
             ->colors([
                 'primary' => Color::Amber,
             ])

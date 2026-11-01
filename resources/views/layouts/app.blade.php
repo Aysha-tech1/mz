@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'محمود الدرعي - خبير التجارة الإلكترونية' }}</title>
-    <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/png">
-    <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}">
+    <link rel="icon" href="{{ asset('images/logo.jpg') }}" type="image/jpeg">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo.jpg') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,6 +28,9 @@
             padding-top: max(1rem, env(safe-area-inset-top));
         }
         .file-email-overlay.is-open { display: flex !important; }
+        .hero-brand-logo{width:4.5rem;height:4.5rem;border-radius:1rem;object-fit:cover;border:1px solid rgb(245 158 11 / 0.35)}
+        .hero-logo-badge{position:absolute;top:.85rem;inset-inline-end:.85rem;z-index:2;width:3.4rem;height:3.4rem;border-radius:.9rem;object-fit:cover;border:1px solid rgb(255 255 255 / .2);box-shadow:0 12px 28px -16px rgb(0 0 0 / .8)}
+        .hero-portrait-img{object-position:center 68%}
     </style>
 </head>
 <body class="antialiased bg-canvas text-primary selection:bg-accent selection:text-primary" x-data>

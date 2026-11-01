@@ -3,7 +3,7 @@
 
     <div class="site-footer-inner">
         <a href="{{ url('/') }}" class="site-footer-brand">
-            <img src="{{ asset('images/logo.png') }}" alt="محمود الدرعي" class="h-8 w-auto object-contain">
+            <img src="{{ asset('images/logo.jpg') }}" alt="محمود الدرعي" class="h-9 w-9 rounded-lg object-cover">
             <span class="font-bold text-sm">محمود الدرعي</span>
         </a>
 

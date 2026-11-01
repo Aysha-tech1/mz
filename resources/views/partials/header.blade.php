@@ -1,7 +1,7 @@
 <header class="fixed inset-x-0 top-0 z-50 h-[var(--header-h)] border-b border-white/10 bg-primary/95 backdrop-blur-xl text-white" x-data="{ open: false }">
     <div class="wrap h-full flex items-center justify-between gap-2 sm:gap-4">
         <a href="{{ url('/') }}" class="flex items-center gap-2 sm:gap-3 min-w-0 group">
-            <img src="{{ asset('images/logo.png') }}" alt="محمود الدرعي" class="h-8 sm:h-10 w-auto object-contain transition-transform group-hover:scale-105">
+            <img src="{{ asset('images/logo.jpg') }}" alt="محمود الدرعي" class="h-9 sm:h-11 w-9 sm:w-11 rounded-lg object-cover transition-transform group-hover:scale-105">
             <span class="font-bold text-sm sm:text-base tracking-tight hidden sm:block truncate">محمود الدرعي</span>
         </a>
 
