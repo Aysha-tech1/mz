@@ -35,7 +35,7 @@ return [
         ],
     ],
 
-    'whatsapp' => env('WHATSAPP_URL', 'https://wa.me/96892572662'),
+    'tiktok' => env('TIKTOK_URL', 'https://www.tiktok.com/@Itsm7zz'),
     'instagram' => env('INSTAGRAM_URL', 'https://www.instagram.com/m7zz'),
     'email' => env('CONTACT_EMAIL', 'info@m7zz.com'),
 
