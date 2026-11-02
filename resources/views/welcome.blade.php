@@ -26,7 +26,7 @@
                 <div class="hero-rise flex flex-wrap items-center gap-2 sm:gap-3" style="--d: .32s">
                     <span class="hero-chip"><b>8</b> خطوات عملية</span>
                     <span class="hero-chip"><b class="text-accent">3</b> مجانية</span>
-                    <span class="hero-chip"><b>15</b> ر.ع. للاستشارة</span>
+                    <span class="hero-chip whitespace-nowrap">يبدأ من <b>9</b> ر.ع.</span>
                 </div>
                 <p class="hero-rise text-[11px] text-white/40 mt-4" style="--d: .4s">الأسعار بالريال العُماني · تنزيل فوري بعد تأكيد الدفع</p>
             </div>
