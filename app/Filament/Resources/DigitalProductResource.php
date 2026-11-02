@@ -107,11 +107,24 @@ class DigitalProductResource extends Resource
                     ->helperText('اختياري للعروض')
                     ->visible(fn (Get $get): bool => ! $get('is_free')),
                 Components\TextInput::make('downloads_count')
-                    ->label('عدد التنزيلات')
+                    ->label('العدد الفعلي')
+                    ->helperText('زيارات التنزيل الحقيقية، لا تُعدَّل من هنا')
                     ->disabled()
                     ->dehydrated(false)
                     ->numeric()
                     ->default(0),
+                Components\Toggle::make('show_real_sales')
+                    ->label('إظهار العدد الحقيقي في الموقع')
+                    ->helperText('إذا أوقفته، يظهر الرقم الذي تكتبه أدناه')
+                    ->default(true)
+                    ->live(),
+                Components\TextInput::make('displayed_sales_count')
+                    ->label('الرقم الظاهر في الموقع')
+                    ->helperText('يظهر للزوار بجانب السعر')
+                    ->numeric()
+                    ->minValue(0)
+                    ->visible(fn (Get $get): bool => ! $get('show_real_sales'))
+                    ->required(fn (Get $get): bool => ! $get('show_real_sales')),
                 Components\FileUpload::make('file_path')
                     ->label('ملف التحميل')
                     ->helperText('PDF، Word، Excel، PowerPoint، CSV، TXT، ZIP · الحد الأقصى 30 ميجا')
@@ -148,8 +161,14 @@ class DigitalProductResource extends Resource
                     ->wrap()
                     ->description(fn (DigitalProduct $record): string => $record->displaySales()),
                 Tables\Columns\TextColumn::make('downloads_count')
-                    ->label('المبيعات')
+                    ->label('الفعلي')
                     ->sortable()
+                    ->alignCenter()
+                    ->badge()
+                    ->color('gray'),
+                Tables\Columns\TextColumn::make('public_sales')
+                    ->label('الظاهر')
+                    ->state(fn (DigitalProduct $record): int => $record->publicSalesCount())
                     ->alignCenter()
                     ->badge()
                     ->color('warning'),

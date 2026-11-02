@@ -51,6 +51,8 @@ class DigitalProduct extends Model
         'old_price',
         'is_coming_soon',
         'is_featured',
+        'show_real_sales',
+        'displayed_sales_count',
     ];
 
     protected function casts(): array
@@ -61,8 +63,10 @@ class DigitalProduct extends Model
             'is_active' => 'boolean',
             'is_coming_soon' => 'boolean',
             'is_featured' => 'boolean',
+            'show_real_sales' => 'boolean',
             'step_number' => 'integer',
             'downloads_count' => 'integer',
+            'displayed_sales_count' => 'integer',
         ];
     }
 
@@ -187,11 +191,23 @@ class DigitalProduct extends Model
         return $this->displaySales();
     }
 
+    public function actualSalesCount(): int
+    {
+        return (int) $this->downloads_count;
+    }
+
+    public function publicSalesCount(): int
+    {
+        if ($this->show_real_sales) {
+            return $this->actualSalesCount();
+        }
+
+        return (int) ($this->displayed_sales_count ?? $this->actualSalesCount());
+    }
+
     public function displaySales(): string
     {
-        $count = (int) $this->downloads_count;
-
-        return $count.' مبيعات';
+        return $this->publicSalesCount().' مبيعات';
     }
 
     public function ctaLabel(): string
