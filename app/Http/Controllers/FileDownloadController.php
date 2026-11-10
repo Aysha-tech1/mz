@@ -59,14 +59,15 @@ class FileDownloadController extends Controller
     {
         $product = DigitalProduct::query()
             ->where('is_active', true)
-            ->where('is_free', true)
             ->where('is_coming_soon', false)
             ->get()
             ->first(fn (DigitalProduct $product): bool => $product->asciiDownloadFilename() === $file);
 
         abort_unless($product && filled($product->file_path) && Storage::disk('public')->exists($product->file_path), 404);
 
-        if (! $request->session()->get('file_unlock.'.$product->id) && ! $request->hasValidSignature()) {
+        $unlocked = $request->session()->get('file_unlock.'.$product->id) || $request->hasValidSignature();
+
+        if (! $unlocked) {
             return redirect('/#start');
         }
 

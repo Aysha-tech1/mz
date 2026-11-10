@@ -113,6 +113,8 @@
                                 <span class="file-cta file-cta-soon">قريبًا</span>
                             @elseif($product->is_free && $product->fileUrl())
                                 <button type="button" class="file-cta" data-file-claim="{{ $product->claimUrl() }}" onclick="return window.openFileEmailModal(this)">تحميل مجاني</button>
+                            @elseif($product->requiresPayment() && $product->fileUrl())
+                                <button type="button" class="file-cta" data-file-claim="{{ $product->claimUrl() }}" data-file-paid="1" data-file-price="{{ $product->displayPrice() }}" onclick="return window.openFileEmailModal(this)">ادفع الآن</button>
                             @else
                                 <button type="button" class="file-cta" data-file-claim="{{ $product->claimUrl() }}" onclick="return window.openFileEmailModal(this)">{{ $product->ctaLabel() }}</button>
                             @endif

@@ -2,7 +2,8 @@
     <div class="file-email-backdrop" data-file-email-close></div>
     <div class="file-email-card" role="dialog" aria-modal="true">
         <button type="button" class="file-email-close" data-file-email-close aria-label="إغلاق">×</button>
-        <h3 class="text-xl font-bold mb-6 leading-snug">ضع إيميلك ليصلك الملف</h3>
+        <h3 id="file-email-title" class="text-xl font-bold mb-2 leading-snug">ضع إيميلك ليصلك الملف</h3>
+        <p id="file-email-price" class="text-sm text-muted mb-6" hidden></p>
         <form id="file-email-form" class="space-y-4">
             <input
                 id="file-email-input"
@@ -26,7 +27,12 @@
         const input = document.getElementById('file-email-input');
         const errorEl = document.getElementById('file-email-error');
         const submitBtn = document.getElementById('file-email-submit');
+        const titleEl = document.getElementById('file-email-title');
+        const priceEl = document.getElementById('file-email-price');
         let claimUrl = '';
+        let paid = false;
+        const defaultSubmit = 'إرسال الملف';
+        const paySubmit = 'ادفع الآن';
 
         function eventEl(event) {
             const target = event.target;
@@ -41,12 +47,18 @@
             errorEl.hidden = ! message;
         }
 
-        function openModal(url) {
-            claimUrl = url || '';
+        function openModal(button) {
+            claimUrl = button.getAttribute('data-file-claim') || '';
+            paid = button.getAttribute('data-file-paid') === '1';
+            const price = button.getAttribute('data-file-price') || '';
+
             input.value = '';
             setError('');
             submitBtn.disabled = false;
-            submitBtn.textContent = 'إرسال الملف';
+            submitBtn.textContent = paid ? paySubmit : defaultSubmit;
+            titleEl.textContent = paid ? 'أدخل إيميلك ثم ادفع الآن' : 'ضع إيميلك ليصلك الملف';
+            priceEl.textContent = price ? 'المبلغ: ' + price : '';
+            priceEl.hidden = ! price;
             modal.classList.add('is-open');
             modal.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
@@ -64,7 +76,7 @@
             if (! button) {
                 return false;
             }
-            openModal(button.getAttribute('data-file-claim'));
+            openModal(button);
             return false;
         };
 
@@ -86,7 +98,7 @@
             }
 
             event.preventDefault();
-            openModal(button.getAttribute('data-file-claim'));
+            openModal(button);
         }, true);
 
         document.addEventListener('keydown', function (event) {
@@ -99,7 +111,7 @@
             event.preventDefault();
             setError('');
             submitBtn.disabled = true;
-            submitBtn.textContent = 'جارٍ الإرسال...';
+            submitBtn.textContent = paid ? 'جارٍ التحويل للدفع...' : 'جارٍ الإرسال...';
 
             try {
                 const csrf = document.querySelector('meta[name="csrf-token"]');
@@ -120,16 +132,16 @@
                 if (! response.ok) {
                     setError(data.message || (data.errors && data.errors.email && data.errors.email[0]) || 'تعذر الإرسال، حاول مرة أخرى.');
                     submitBtn.disabled = false;
-                    submitBtn.textContent = 'إرسال الملف';
+                    submitBtn.textContent = paid ? paySubmit : defaultSubmit;
                     return;
                 }
 
                 closeModal();
-                window.location.href = data.download_url;
+                window.location.href = data.checkout_url || data.download_url;
             } catch (e) {
                 setError('تعذر الاتصال، حاول مرة أخرى.');
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'إرسال الملف';
+                submitBtn.textContent = paid ? paySubmit : defaultSubmit;
             }
         });
     })();

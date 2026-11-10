@@ -48,8 +48,10 @@
                         <button type="button" class="btn btn-acc" data-file-claim="{{ $digitalProduct->claimUrl() }}" onclick="return window.openFileEmailModal(this)">تحميل مجاني</button>
                     @elseif($digitalProduct->is_free)
                         <span class="file-cta file-cta-soon">سيتوفر التحميل قريبًا</span>
+                    @elseif($digitalProduct->requiresPayment() && $digitalProduct->fileUrl())
+                        <button type="button" class="btn btn-acc" data-file-claim="{{ $digitalProduct->claimUrl() }}" data-file-paid="1" data-file-price="{{ $digitalProduct->displayPrice() }}" onclick="return window.openFileEmailModal(this)">ادفع الآن</button>
                     @else
-                        <button type="button" class="btn btn-acc" data-file-claim="{{ $digitalProduct->claimUrl() }}" onclick="return window.openFileEmailModal(this)">احصل عليه</button>
+                        <span class="file-cta file-cta-soon">سيتوفر التحميل قريبًا</span>
                     @endif
                 </div>
             </article>

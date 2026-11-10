@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FileDownloadController;
+use App\Http\Controllers\PaymentController;
+use App\Mail\FileDeliveryMail;
 use App\Models\ConsultationType;
 use App\Models\Availability;
 use App\Models\Booking;
@@ -33,6 +35,27 @@ Route::get('/files/{digitalProduct}', function (DigitalProduct $digitalProduct) 
 Route::post('/files/{digitalProduct}/claim', [FileDownloadController::class, 'claim'])
     ->middleware('throttle:8,1')
     ->name('digital-products.claim');
+
+Route::post('/files/{digitalProduct}/pay', [PaymentController::class, 'checkout'])
+    ->middleware('throttle:8,1')
+    ->name('payments.checkout');
+
+Route::get('/pay/return', [PaymentController::class, 'return'])
+    ->name('payments.return');
+
+Route::get('/pay/failed', [PaymentController::class, 'failed'])
+    ->name('payments.failed');
+
+Route::get('/pay/test/{reference}', [PaymentController::class, 'showTest'])
+    ->name('payments.test.show');
+
+Route::post('/pay/test/{reference}', [PaymentController::class, 'confirmTest'])
+    ->middleware('throttle:8,1')
+    ->name('payments.test.confirm');
+
+Route::post('/pay/webhook', [PaymentController::class, 'webhook'])
+    ->middleware('throttle:60,1')
+    ->name('payments.webhook');
 
 Route::get('/dl/{file}', [FileDownloadController::class, 'download'])
     ->where('file', '[A-Za-z0-9][A-Za-z0-9._-]*\.[A-Za-z0-9]+')
@@ -79,3 +102,11 @@ Route::get('/privacy', function () {
 Route::get('/refund', function () {
     return view('pages.refund');
 })->name('refund');
+
+if (app()->isLocal()) {
+    Route::get('/mail-preview', function () {
+        $product = DigitalProduct::query()->where('is_active', true)->orderBy('step_number')->firstOrFail();
+
+        return (new FileDeliveryMail($product, true, 'preview@m7zz.com'))->render();
+    });
+}

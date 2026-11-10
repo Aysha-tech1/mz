@@ -181,9 +181,16 @@ class DigitalProduct extends Model
         ]);
     }
 
+    public function requiresPayment(): bool
+    {
+        return ! $this->is_free;
+    }
+
     public function claimUrl(): string
     {
-        return route('digital-products.claim', $this);
+        return $this->requiresPayment()
+            ? route('payments.checkout', $this)
+            : route('digital-products.claim', $this);
     }
 
     public function displayDownloads(): string
@@ -216,7 +223,7 @@ class DigitalProduct extends Model
             return 'قريبًا';
         }
 
-        return $this->is_free ? 'تحميل مجاني' : 'احصل عليه';
+        return $this->is_free ? 'تحميل مجاني' : 'ادفع الآن';
     }
 
     public function fileUrl(): ?string
