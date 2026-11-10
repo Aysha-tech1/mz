@@ -12,7 +12,7 @@ class Dashboard extends BaseDashboard
 
     public function getSubheading(): ?string
     {
-        return 'ملخص الحجوزات، المواعيد، والملفات';
+        return 'ملخص الحجوزات، المواعيد، ومدفوعات الملفات';
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Filament\Resources\BookingResource;
 use App\Models\Availability;
 use App\Models\Booking;
 use App\Models\DigitalProduct;
+use App\Models\Payment;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Number;
@@ -42,6 +43,8 @@ class OverviewStats extends StatsOverviewWidget
         $activeFiles = DigitalProduct::query()->where('is_active', true)->count();
         $comingSoon = DigitalProduct::query()->where('is_coming_soon', true)->count();
         $fileDownloads = (int) DigitalProduct::query()->sum('downloads_count');
+        $paidFileRevenue = (float) Payment::query()->where('status', Payment::STATUS_PAID)->sum('amount');
+        $paidFileCount = Payment::query()->where('status', Payment::STATUS_PAID)->count();
 
         return [
             Stat::make('حجوزات اليوم', Number::format($todayBookings))
@@ -69,6 +72,10 @@ class OverviewStats extends StatsOverviewWidget
                 ->descriptionIcon('heroicon-m-chart-bar')
                 ->color('warning')
                 ->url(url('/admin/file-sales')),
+            Stat::make('عائد الملفات', number_format($paidFileRevenue, 3).' ر.ع.')
+                ->description(Number::format($paidFileCount).' عملية دفع مكتملة')
+                ->descriptionIcon('heroicon-m-banknotes')
+                ->color('success'),
         ];
     }
 }
